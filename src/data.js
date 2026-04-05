@@ -182,6 +182,7 @@ export const SEED_EMPLOYEES = [
   { id: 3, name: 'Jordan Lee',     email: 'jordan.l@acme.com', department: 'Product',     role: 'Product Manager',      startDate: '2026-04-07', status: 'Onboarding',  acknowledged: ['coc'], watchedVideos: [], completedChecklist: [] },
   { id: 4, name: 'Sam Okafor',     email: 'sam.o@acme.com',    department: 'Data',        role: 'Data Analyst',         startDate: '2026-04-10', status: 'Pending',     acknowledged: [], watchedVideos: [], completedChecklist: [] },
   { id: 5, name: 'Taylor Jenkins', email: 'taylor.j@acme.com', department: 'Testing',     role: 'QA Automation Engineer',startDate: '2026-04-05', status: 'Active',      acknowledged: ['coc'], watchedVideos: [], completedChecklist: [] },
+  { id: 6, name: 'Morgan Chen',    email: 'morgan.c@acme.com', department: 'Testing',     role: 'Manual Tester',        startDate: '2026-04-12', status: 'Onboarding',  acknowledged: ['coc', 'security'], watchedVideos: [0], completedChecklist: [] },
 ];
 
 export function getPermissions(role) {
