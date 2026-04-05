@@ -13,7 +13,7 @@ import NotificationsPopover from './components/NotificationsPopover';
 import ChatView from './components/ChatView';
 import EmailView from './components/EmailView';
 import LoginView from './components/LoginView';
-import { SEED_EMPLOYEES } from './data';
+import { SEED_EMPLOYEES, JIRA_TASKS } from './data';
 import './index.css';
 
 const MANAGER_NAV_ITEMS = [
@@ -36,7 +36,20 @@ export default function App() {
   const [activeNav, setActiveNav]     = useState('home');
   const [employees, setEmployees] = useState(() => {
     const saved = localStorage.getItem('provision_employees');
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Patch stale cached tasks: merge storyPoints from seed if missing
+      return parsed.map(emp => {
+        if (!emp.tasks) return emp;
+        const seedTasks = JIRA_TASKS[emp.department] || [];
+        const patched = emp.tasks.map(t => {
+          if (t.storyPoints != null) return t; // already has points
+          const seed = seedTasks.find(s => s.id === t.id);
+          return seed ? { ...t, storyPoints: seed.storyPoints } : t;
+        });
+        return { ...emp, tasks: patched };
+      });
+    }
     return SEED_EMPLOYEES;
   });
 
