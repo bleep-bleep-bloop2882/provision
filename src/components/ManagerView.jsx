@@ -99,6 +99,7 @@ export default function ManagerView({ employees, setEmployees, onViewEmployee })
               <th className="text-left px-4 py-3 hidden lg:table-cell">Start Date</th>
               <th className="text-left px-4 py-3">Status</th>
               <th className="text-left px-4 py-3 hidden sm:table-cell">Tasks</th>
+              <th className="text-left px-4 py-3 hidden md:table-cell">Points</th>
               <th className="px-4 py-3"></th>
             </tr>
           </thead>
@@ -109,6 +110,8 @@ export default function ManagerView({ employees, setEmployees, onViewEmployee })
                 const doneTasks = employeeTasks.filter(t => t.status === 'Done').length;
                 const activeTasks = employeeTasks.filter(t => t.status === 'In Progress').length;
                 const totalTasks = employeeTasks.length;
+                const totalPoints = employeeTasks.reduce((sum, t) => sum + (t.storyPoints || 0), 0);
+                const donePoints = employeeTasks.filter(t => t.status === 'Done').reduce((sum, t) => sum + (t.storyPoints || 0), 0);
                 const progress = calcProgress(emp);
                 const derivedStatus = progress === 100 ? 'Active' : 'Onboarding';
                 const statusCfg = STATUS_CONFIG[derivedStatus] || STATUS_CONFIG.Onboarding;
@@ -159,6 +162,12 @@ export default function ManagerView({ employees, setEmployees, onViewEmployee })
                         )}
                       </div>
                     </td>
+                    <td className="px-4 py-3.5 hidden md:table-cell">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-white text-xs font-semibold">{donePoints}/{totalPoints}</span>
+                        <span className="text-xs text-slate-500">pts</span>
+                      </div>
+                    </td>
                     <td className="px-4 py-3.5">
                       <div className="flex gap-1 justify-end">
                         <button onClick={() => onViewEmployee(emp)} className="btn-ghost p-1.5 text-xs flex items-center gap-1">
@@ -193,7 +202,7 @@ export default function ManagerView({ employees, setEmployees, onViewEmployee })
                                     }`}>
                                       {task.type}
                                     </span>
-                                    {task.type === 'Story' && task.storyPoints && (
+                                    {task.storyPoints != null && (
                                       <span className="bg-surface-700 text-slate-300 text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1" title="Story Points">
                                         {task.storyPoints} pts
                                       </span>

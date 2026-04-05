@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield, LayoutDashboard, Users, UsersRound,
   Settings, ChevronDown, BarChart3, UserPlus,
-  Clock, CheckCircle2, AlertCircle, Bell, ArrowLeft, MessageSquare, Mail
+  Clock, CheckCircle2, AlertCircle, Bell, ArrowLeft, MessageSquare, Mail, GitBranch, Calendar
 } from 'lucide-react';
 import ManagerView from './components/ManagerView';
 import EmployeeView from './components/EmployeeView';
@@ -13,8 +13,13 @@ import NotificationsPopover from './components/NotificationsPopover';
 import ChatView from './components/ChatView';
 import EmailView from './components/EmailView';
 import LoginView from './components/LoginView';
+import GitView from './components/GitView';
+import SettingsView from './components/SettingsView';
+import CalendarView from './components/CalendarView';
+import KnowledgeOSBot from './components/KnowledgeOSBot';
 import { SEED_EMPLOYEES, JIRA_TASKS } from './data';
 import { ThemeProvider, useTheme } from './ThemeProvider';
+import { LanguageProvider, useLanguage } from './LanguageProvider';
 import './index.css';
 
 const MANAGER_NAV_ITEMS = [
@@ -22,6 +27,8 @@ const MANAGER_NAV_ITEMS = [
   { id: 'teams',     label: 'Team',      icon: UsersRound },
   { id: 'email',     label: 'Email',     icon: Mail },
   { id: 'chat',      label: 'Chat',      icon: MessageSquare },
+  { id: 'git',       label: 'Git',       icon: GitBranch },
+  { id: 'calendar',  label: 'Calendar',  icon: Calendar },
   { id: 'settings',  label: 'Settings',  icon: Settings },
 ];
 
@@ -30,25 +37,40 @@ const EMPLOYEE_NAV_ITEMS = [
   { id: 'organization',  label: 'Team',          icon: UsersRound },
   { id: 'email',         label: 'Email',         icon: Mail },
   { id: 'chat',          label: 'Chat',          icon: MessageSquare },
+  { id: 'git',           label: 'Git',           icon: GitBranch },
+  { id: 'calendar',      label: 'Calendar',      icon: Calendar },
   { id: 'settings',      label: 'Settings',      icon: Settings },
 ];
 
 export default function App() {
   return (
     <ThemeProvider>
-      <AppInner />
+      <LanguageProvider>
+        <AppInner />
+      </LanguageProvider>
     </ThemeProvider>
   );
 }
 
 function AppInner() {
+  const { t } = useLanguage();
   const [activeNav, setActiveNav]     = useState('home');
+  
+  const [meetings, setMeetings] = useState(() => {
+    const saved = localStorage.getItem('provision_bot_meetings');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('provision_bot_meetings', JSON.stringify(meetings));
+  }, [meetings]);
+
   const [employees, setEmployees] = useState(() => {
     const saved = localStorage.getItem('provision_employees');
     if (saved) {
       const parsed = JSON.parse(saved);
       // Patch stale cached tasks: merge storyPoints from seed if missing
-      return parsed.map(emp => {
+      const updatedEmployees = parsed.map(emp => {
         if (!emp.tasks) return emp;
         const seedTasks = JIRA_TASKS[emp.department] || [];
         const patched = emp.tasks.map(t => {
@@ -58,6 +80,12 @@ function AppInner() {
         });
         return { ...emp, tasks: patched };
       });
+      
+      // Merge in any new seed employees that aren't in local storage yet
+      const existingIds = new Set(updatedEmployees.map(e => e.id));
+      const newSeeds = SEED_EMPLOYEES.filter(e => !existingIds.has(e.id));
+      
+      return [...updatedEmployees, ...newSeeds];
     }
     return SEED_EMPLOYEES;
   });
@@ -138,10 +166,10 @@ function AppInner() {
                 }`}
               >
                 <Icon size={18} className="shrink-0" />
-                <span className="hidden md:block">{item.label}</span>
+                <span className="hidden md:block">{t(item.label)}</span>
                 {/* Tooltip on mobile */}
                 <span className="absolute left-14 bg-surface-700 text-white text-xs px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap md:hidden z-50 border border-surface-500">
-                  {item.label}
+                  {t(item.label)}
                 </span>
               </button>
             );
@@ -150,9 +178,13 @@ function AppInner() {
 
         {/* User Profile (bottom of sidebar) */}
         <div className="p-4 border-t border-surface-600 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
-            {initials}
-          </div>
+          {currentUser.avatar ? (
+            <img src={currentUser.avatar} alt="Avatar" className="w-8 h-8 rounded-full border border-surface-500 object-cover shrink-0" />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
+              {initials}
+            </div>
+          )}
           <div className="hidden md:block overflow-hidden">
             <p className="text-white text-xs font-semibold truncate">{currentUser.name}</p>
             <p className="text-slate-500 text-[10px] uppercase tracking-wider font-semibold truncate">{currentUser.type}</p>
@@ -173,10 +205,10 @@ function AppInner() {
             )}
             <div>
               <h1 className="text-white font-semibold text-sm">
-                {headerTitle}
+                {t(headerTitle || '')}
               </h1>
               <p className="text-slate-500 text-xs">
-                {headerSubtitle}
+                {t(headerSubtitle || '')}
               </p>
             </div>
           </div>
@@ -254,28 +286,43 @@ function AppInner() {
               </motion.div>
             )}
 
+            {!isPeekingEmployee && activeNav === 'git' && (
+              <motion.div key="git" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <GitView currentUser={currentUser} />
+              </motion.div>
+            )}
+
+            {!isPeekingEmployee && activeNav === 'calendar' && (
+              <motion.div key="calendar" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <CalendarView currentUser={currentUser} employees={employees} meetings={meetings} />
+              </motion.div>
+            )}
+
             {!isPeekingEmployee && activeNav === 'settings' && (
-              <motion.div key="settings" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <div className="p-8 text-slate-500 text-sm">Settings — coming soon.</div>
+              <motion.div key="settings" className="h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                <SettingsView currentUser={currentUser} setEmployees={setEmployees} setCurrentUser={setCurrentUser} />
               </motion.div>
             )}
           </AnimatePresence>
         </main>
       </div>
 
-      {/* Dark/Light Mode Toggle — fixed bottom-right */}
-      <ThemeToggle />
+      {/* Floating KnowledgeOS Assistant */}
+      <KnowledgeOSBot currentUser={currentUser} employees={employees} setEmployees={setEmployees} setMeetings={setMeetings} />
+
+      {/* Dark/Light Mode Toggle — shifted left to avoid overlap */}
+      <ThemeToggle position="left" />
     </div>
   );
 }
 
-function ThemeToggle() {
+function ThemeToggle({ position = 'right' }) {
   const { isDark, toggle } = useTheme();
   return (
     <button
       onClick={toggle}
       title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-      className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+      className={`fixed bottom-6 ${position === 'left' ? 'right-[96px]' : 'right-6'} z-50 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95`}
       style={{
         background: isDark
           ? 'linear-gradient(135deg, #1c2333, #30363d)'

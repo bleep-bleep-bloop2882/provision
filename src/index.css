@@ -30,6 +30,7 @@ html.light .bg-surface-600             { background-color: #e8ecf4 !important; }
 html.light .border-surface-600         { border-color:     #e2e8f0 !important; }
 html.light .border-surface-500         { border-color:     #cbd5e1 !important; }
 html.light .text-white                 { color: #1e293b   !important; }
+html.light .text-slate-200             { color: #334155   !important; }
 html.light .text-slate-300             { color: #475569   !important; }
 html.light .text-slate-400             { color: #64748b   !important; }
 html.light .text-slate-500             { color: #94a3b8   !important; }

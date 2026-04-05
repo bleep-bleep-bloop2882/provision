@@ -8,6 +8,7 @@ export const DEPARTMENTS = {
   Finance: ['Financial Analyst', 'Controller', 'Finance Manager'],
   Sales: ['Account Executive', 'Sales Engineer', 'Customer Success'],
   Testing: ['Manual Tester', 'QA Automation Engineer', 'SDET', 'Test Lead'],
+  Marketing: ['Growth Marketer', 'Content Strategist', 'SEO Specialist', 'Performance Marketer'],
 };
 
 // ─── Systems ──────────────────────────────────────────────────────────────────
@@ -55,6 +56,10 @@ export const ROLE_PERMISSIONS = {
   'QA Automation Engineer': { github: 'write', jira: 'write', aws: 'read', slack: 'granted', notion: 'write', prod_db: 'read', vpn: 'granted', datadog: 'write', figma: 'read', salesforce: 'none', looker: 'none', zoom: 'granted' },
   'SDET':                   { github: 'write', jira: 'write', aws: 'write', slack: 'granted', notion: 'write', prod_db: 'read', vpn: 'granted', datadog: 'write', figma: 'read', salesforce: 'none', looker: 'none', zoom: 'granted' },
   'Test Lead':              { github: 'admin', jira: 'admin', aws: 'read', slack: 'granted', notion: 'admin', prod_db: 'none', vpn: 'granted', datadog: 'admin', figma: 'read', salesforce: 'none', looker: 'read', zoom: 'granted' },
+  'Growth Marketer':        { github: 'none',  jira: 'read',  aws: 'none', slack: 'granted', notion: 'write', prod_db: 'none', vpn: 'granted', datadog: 'none', figma: 'read', salesforce: 'read', looker: 'write', zoom: 'granted' },
+  'Content Strategist':     { github: 'none',  jira: 'read',  aws: 'none', slack: 'granted', notion: 'write', prod_db: 'none', vpn: 'granted', datadog: 'none', figma: 'read', salesforce: 'none', looker: 'read', zoom: 'granted' },
+  'SEO Specialist':         { github: 'none',  jira: 'write', aws: 'none', slack: 'granted', notion: 'write', prod_db: 'none', vpn: 'granted', datadog: 'none', figma: 'none', salesforce: 'read', looker: 'write', zoom: 'granted' },
+  'Performance Marketer':   { github: 'none',  jira: 'read',  aws: 'none', slack: 'granted', notion: 'write', prod_db: 'none', vpn: 'granted', datadog: 'none', figma: 'none', salesforce: 'read', looker: 'write', zoom: 'granted' },
 };
 
 // ─── Company Policies ─────────────────────────────────────────────────────────
@@ -173,6 +178,16 @@ export const PROJECT_INTROS = {
       { title: 'Writing Excellent Bug Reports', duration: '8 min' }
     ],
   },
+  Marketing: {
+    overview: 'Marketing drives awareness, lead generation, and brand positioning. We collaborate closely with Sales and Product to ensure consistent messaging across all channels. Our goal is to fill the upper funnel and nurture prospects.',
+    currentSprint: 'Q2 focus: Launching the new product tier campaign, optimizing SEO for 10 high-intent keywords, and preparing content for the upcoming industry webinar.',
+    keyTools: ['Notion (content calendars)', 'HubSpot (marketing automation)', 'Figma (asset design)', 'Slack: #marketing, #campaigns, #content'],
+    watchFirst: [
+      { title: 'Brand Guidelines & Tone of Voice', duration: '15 min' },
+      { title: 'Campaign Creation Process', duration: '20 min' },
+      { title: 'Our Core ICPs and Personas', duration: '12 min' }
+    ],
+  },
 };
 
 // ─── Seed employees ───────────────────────────────────────────────────────────
@@ -183,6 +198,7 @@ export const SEED_EMPLOYEES = [
   { id: 4, name: 'Sam Okafor',     email: 'sam.o@acme.com',    department: 'Data',        role: 'Data Analyst',         startDate: '2026-04-10', status: 'Pending',     acknowledged: [], watchedVideos: [], completedChecklist: [] },
   { id: 5, name: 'Taylor Jenkins', email: 'taylor.j@acme.com', department: 'Testing',     role: 'QA Automation Engineer',startDate: '2026-04-05', status: 'Active',      acknowledged: ['coc'], watchedVideos: [], completedChecklist: [] },
   { id: 6, name: 'Morgan Chen',    email: 'morgan.c@acme.com', department: 'Testing',     role: 'Manual Tester',        startDate: '2026-04-12', status: 'Onboarding',  acknowledged: ['coc', 'security'], watchedVideos: [0], completedChecklist: [] },
+  { id: 7, name: 'Avery Davis',    email: 'avery.d@acme.com',  department: 'Marketing',   role: 'Growth Marketer',      startDate: '2026-04-02', status: 'Active',      acknowledged: ['coc', 'security', 'privacy'], watchedVideos: [0, 1], completedChecklist: [] },
 ];
 
 export function getPermissions(role) {
@@ -213,6 +229,10 @@ export const JIRA_TASKS = {
   ],
   Testing: [
     { id: 'QA-1101', title: 'Verify the React 19 upgrade on the dashboard', status: 'Done', priority: 'High', type: 'Task', storyPoints: 3 }
+  ],
+  Marketing: [
+    { id: 'MKT-201', title: 'Draft email sequence for Q2 Webinar', status: 'In Progress', priority: 'Medium', type: 'Task', storyPoints: 3 },
+    { id: 'MKT-204', title: 'Review ad copy variations with Design', status: 'To Do', priority: 'High', type: 'Task', storyPoints: 2 },
   ]
 };
 

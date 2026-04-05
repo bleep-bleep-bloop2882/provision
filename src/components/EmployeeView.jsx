@@ -444,7 +444,9 @@ function ProgressSection({ employee }) {
   const videoTotal = intro?.watchFirst?.length || 0;
 
   const tasks = employee.tasks || JIRA_TASKS[employee.department] || [];
-  const pointsEarned = tasks.filter(t => t.status === 'Done').reduce((sum, t) => sum + (Number(t.storyPoints) || 0), 0);
+  const pointsDone       = tasks.filter(t => t.status === 'Done').reduce((s, t) => s + (Number(t.storyPoints) || 0), 0);
+  const pointsInProgress = tasks.filter(t => t.status === 'In Progress').reduce((s, t) => s + Math.floor((Number(t.storyPoints) || 0) / 2), 0);
+  const pointsEarned     = pointsDone + pointsInProgress;
 
   const done = tasks.filter(t => t.status === 'Done').length;
   const inProgress = tasks.filter(t => t.status === 'In Progress').length;
