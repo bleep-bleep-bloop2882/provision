@@ -199,20 +199,20 @@ export function calcProgress(employee) {
 // ─── Jira Tasks ───────────────────────────────────────────────────────────────
 export const JIRA_TASKS = {
   Engineering: [
-    { id: 'ENG-1042', title: 'Setup local dev environment pointing to staging DB', status: 'To Do', priority: 'High', type: 'Task', storyPoints: 2 },
-    { id: 'ENG-1043', title: 'Review Q1 Architecture Doc', status: 'In Progress', priority: 'Medium', type: 'Story', storyPoints: 3 },
-    { id: 'ENG-1045', title: 'Submit PR for your first bug fix (Good first issue)', status: 'To Do', priority: 'Medium', type: 'Bug', storyPoints: 1 },
+    { id: 'ENG-1042', title: 'Setup local dev environment pointing to staging DB', status: 'Done', priority: 'High', type: 'Task', storyPoints: 3 },
+    { id: 'ENG-1043', title: 'Review Q1 Architecture Doc', status: 'In Progress', priority: 'Medium', type: 'Story', storyPoints: 5 },
+    { id: 'ENG-1045', title: 'Submit PR for your first bug fix (Good first issue)', status: 'To Do', priority: 'Medium', type: 'Bug', storyPoints: 2 },
   ],
   Design: [
-    { id: 'DES-402', title: 'Audit current component library states in Figma', status: 'To Do', priority: 'Medium', type: 'Task', storyPoints: 5 },
+    { id: 'DES-402', title: 'Audit current component library states in Figma', status: 'To Do', priority: 'Medium', type: 'Task', storyPoints: 3 },
     { id: 'DES-403', title: 'Meet with Product Lead for onboarding sync', status: 'Done', priority: 'High', type: 'Epic', storyPoints: 8 },
   ],
   Product: [
-    { id: 'PRD-812', title: 'Read the latest strategy memo for Q2', status: 'In Progress', priority: 'High', type: 'Story', storyPoints: 3 },
-    { id: 'PRD-813', title: 'Shadow 3 user research calls this week', status: 'To Do', priority: 'Medium', type: 'Task', storyPoints: 2 },
+    { id: 'PRD-812', title: 'Read the latest strategy memo for Q2', status: 'In Progress', priority: 'High', type: 'Story', storyPoints: 5 },
+    { id: 'PRD-813', title: 'Shadow 3 user research calls this week', status: 'To Do', priority: 'Medium', type: 'Task', storyPoints: 3 },
   ],
   Testing: [
-    { id: 'QA-1101', title: 'Verify the React 19 upgrade on the dashboard', status: 'To Do', priority: 'High', type: 'Task', storyPoints: 5 }
+    { id: 'QA-1101', title: 'Verify the React 19 upgrade on the dashboard', status: 'Done', priority: 'High', type: 'Task', storyPoints: 3 }
   ]
 };
 
