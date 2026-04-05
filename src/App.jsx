@@ -14,6 +14,7 @@ import ChatView from './components/ChatView';
 import EmailView from './components/EmailView';
 import LoginView from './components/LoginView';
 import { SEED_EMPLOYEES, JIRA_TASKS } from './data';
+import { ThemeProvider, useTheme } from './ThemeProvider';
 import './index.css';
 
 const MANAGER_NAV_ITEMS = [
@@ -33,6 +34,14 @@ const EMPLOYEE_NAV_ITEMS = [
 ];
 
 export default function App() {
+  return (
+    <ThemeProvider>
+      <AppInner />
+    </ThemeProvider>
+  );
+}
+
+function AppInner() {
   const [activeNav, setActiveNav]     = useState('home');
   const [employees, setEmployees] = useState(() => {
     const saved = localStorage.getItem('provision_employees');
@@ -253,6 +262,49 @@ export default function App() {
           </AnimatePresence>
         </main>
       </div>
+
+      {/* Dark/Light Mode Toggle — fixed bottom-right */}
+      <ThemeToggle />
     </div>
+  );
+}
+
+function ThemeToggle() {
+  const { isDark, toggle } = useTheme();
+  return (
+    <button
+      onClick={toggle}
+      title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+      className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
+      style={{
+        background: isDark
+          ? 'linear-gradient(135deg, #1c2333, #30363d)'
+          : 'linear-gradient(135deg, #fbbf24, #f59e0b)',
+        border: isDark ? '1.5px solid #30363d' : '1.5px solid #f59e0b',
+        boxShadow: isDark
+          ? '0 4px 24px rgba(99,102,241,0.25)'
+          : '0 4px 24px rgba(251,191,36,0.4)',
+      }}
+    >
+      {isDark ? (
+        // Sun icon
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      ) : (
+        // Moon icon
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e293b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      )}
+    </button>
   );
 }

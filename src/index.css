@@ -4,7 +4,29 @@
 @tailwind utilities;
 
 * { box-sizing: border-box; }
-body { background-color: #0d1117; color: #e6edf3; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+body { background-color: #0d1117; color: #e6edf3; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; transition: background-color 0.3s ease, color 0.3s ease; }
+
+/* ── Light mode overrides ───────────────────────────────────────────────── */
+html.light body { background-color: #f4f6fb; color: #1a1f2e; }
+html.light .card { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
+html.light .btn-ghost { color: #475569; }
+html.light .btn-ghost:hover { color: #1e293b; background-color: #e2e8f0; }
+html.light .input, html.light .select { background-color: #f1f5f9; border-color: #cbd5e1; color: #1e293b; }
+html.light .policy-card { background-color: #ffffff; border-color: #e2e8f0; }
+html.light .shimmer { background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%); background-size: 200% 100%; }
+html.light ::-webkit-scrollbar-track { background: #f1f5f9; }
+html.light ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+/* Cards / surfaces in light mode */
+html.light [class*="bg-surface-900"] { background-color: #f4f6fb !important; }
+html.light [class*="bg-surface-800"] { background-color: #ffffff !important; }
+html.light [class*="bg-surface-700"] { background-color: #f1f5f9 !important; }
+html.light [class*="bg-surface-600"] { background-color: #e8ecf4 !important; }
+html.light [class*="border-surface-600"] { border-color: #e2e8f0 !important; }
+html.light [class*="border-surface-500"] { border-color: #cbd5e1 !important; }
+html.light [class*="text-slate-300"] { color: #475569 !important; }
+html.light [class*="text-slate-400"] { color: #64748b !important; }
+html.light [class*="text-slate-500"] { color: #94a3b8 !important; }
+html.light [class*="text-white"] { color: #1e293b !important; }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #161b22; }
 ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
