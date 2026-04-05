@@ -109,10 +109,10 @@ function AppInner() {
   const initials = isManager ? 'MG' : (currentUser.name[0] + (currentUser.name.split(' ')[1]?.[0] || ''));
 
   return (
-    <div className="flex h-screen bg-surface-950 overflow-hidden">
+    <div id="app-shell" className="flex h-screen bg-surface-950 overflow-hidden">
 
       {/* ── Left Sidebar (Teams-style) ── */}
-      <aside className="flex flex-col w-16 md:w-56 bg-surface-900 border-r border-surface-600 shrink-0 z-20">
+      <aside id="app-sidebar" className="flex flex-col w-16 md:w-56 bg-surface-900 border-r border-surface-600 shrink-0 z-20">
 
         {/* Logo */}
         <div className="h-14 flex items-center px-3 md:px-4 border-b border-surface-600 gap-2.5 shrink-0">
@@ -164,7 +164,7 @@ function AppInner() {
       <div className="flex flex-col flex-1 overflow-hidden">
 
         {/* Top bar */}
-        <header className="h-14 bg-surface-900 border-b border-surface-600 flex items-center justify-between px-6 shrink-0 relative">
+        <header id="app-header" className="h-14 bg-surface-900 border-b border-surface-600 flex items-center justify-between px-6 shrink-0 relative">
           <div className="flex items-center gap-3">
             {isPeekingEmployee && (
               <button onClick={handleBack} className="p-1 px-2 -ml-2 rounded hover:bg-surface-800 text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-medium">
@@ -201,7 +201,7 @@ function AppInner() {
         </header>
 
         {/* Page content (scrollable) */}
-        <main className="flex-1 overflow-y-auto">
+        <main id="app-main" className="flex-1 overflow-y-auto">
           <AnimatePresence mode="wait">
             
             {/* MANAGER PATHS */}
