@@ -29,3 +29,4 @@ Getting up and running locally is extremely quick.
 4. Access the interface locally at `http://localhost:5173/`. *(You can cycle between Employee and Manager viewpoints using the mock login panel).*
 
 
+<!-- redeploy trigger -->
