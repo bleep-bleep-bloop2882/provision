@@ -489,10 +489,6 @@ function ProgressSection({ employee }) {
               <span className="text-[11px] text-slate-400 mb-0.5 uppercase tracking-wide font-bold">Videos</span>
               <span className="text-sm text-white font-semibold flex justify-between"><span>{videoDone} / {videoTotal}</span> <span className="text-slate-500 text-xs mt-0.5">Done</span></span>
             </div>
-            <div className="flex flex-col bg-fuchsia-900/20 border border-fuchsia-700/30 rounded-lg p-2 px-2.5">
-              <span className="text-[11px] text-fuchsia-400 mb-0.5 uppercase tracking-wide font-bold">Story Pts</span>
-              <span className="text-sm text-white font-semibold flex justify-between"><span>{pointsEarned}</span> <span className="text-fuchsia-500/70 text-xs mt-0.5">Earned</span></span>
-            </div>
           </div>
         </div>
       </div>
@@ -538,6 +534,13 @@ function ProgressSection({ employee }) {
                 <span className="w-3 h-3 rounded-sm bg-slate-500 shrink-0"></span> To Do
               </div>
               <span className="font-bold text-white shadow-sm">{todo}</span>
+            </div>
+            <div className="flex items-center justify-between gap-6 pt-2 mt-1 border-t border-surface-600">
+              <div className="flex items-center gap-2 text-sm">
+                <span className="w-3 h-3 rounded-sm bg-fuchsia-500 shrink-0"></span>
+                <span className="text-fuchsia-300 font-semibold">Points</span>
+              </div>
+              <span className="font-bold text-fuchsia-300">{pointsEarned} pts</span>
             </div>
           </div>
         </div>
