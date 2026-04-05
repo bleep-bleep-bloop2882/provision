@@ -368,14 +368,7 @@ function JiraTasksPanel({ employee, setEmployee, readOnly, employees, setEmploye
               <div key={col} className="bg-surface-900 border border-surface-600 rounded-xl p-3 flex flex-col min-h-[400px]">
                 <div className="flex items-center justify-between mb-3 px-1">
                   <h4 className="text-white font-semibold text-sm">{col}</h4>
-                  <div className="flex items-center gap-2">
-                    <span className="bg-surface-700 text-slate-400 text-xs px-2 py-0.5 rounded-full font-medium">{colTasks.length}</span>
-                    {colTasks.reduce((acc, t) => acc + (parseInt(t.storyPoints) || 0), 0) > 0 && (
-                      <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full font-medium text-center">
-                        {colTasks.reduce((acc, t) => acc + (parseInt(t.storyPoints) || 0), 0)} pts
-                      </span>
-                    )}
-                  </div>
+                  <span className="bg-surface-700 text-slate-400 text-xs px-2 py-0.5 rounded-full font-medium">{colTasks.length}</span>
                 </div>
 
             
@@ -451,6 +444,8 @@ function ProgressSection({ employee }) {
   const videoTotal = intro?.watchFirst?.length || 0;
 
   const tasks = employee.tasks || JIRA_TASKS[employee.department] || [];
+  const pointsEarned = tasks.filter(t => t.status === 'Done').reduce((sum, t) => sum + (Number(t.storyPoints) || 0), 0);
+
   const done = tasks.filter(t => t.status === 'Done').length;
   const inProgress = tasks.filter(t => t.status === 'In Progress').length;
   const todo = tasks.filter(t => t.status === 'To Do').length;
@@ -485,14 +480,18 @@ function ProgressSection({ employee }) {
               <span className="text-3xl font-bold text-white">{progress}%</span>
             </div>
           </div>
-          <div className="flex flex-col justify-center gap-3 w-full sm:w-32">
-            <div className="flex flex-col bg-surface-800 border border-surface-600 rounded-lg p-2.5">
-              <span className="text-xs text-slate-400 mb-0.5">Policies</span>
-              <span className="text-sm text-white font-semibold flex justify-between"><span>{policyDone} / {POLICIES.length}</span> <span className="text-slate-500">Done</span></span>
+          <div className="flex flex-col justify-center gap-2 w-full sm:w-32">
+            <div className="flex flex-col bg-surface-800 border border-surface-600 rounded-lg p-2 px-2.5">
+              <span className="text-[11px] text-slate-400 mb-0.5 uppercase tracking-wide font-bold">Policies</span>
+              <span className="text-sm text-white font-semibold flex justify-between"><span>{policyDone} / {POLICIES.length}</span> <span className="text-slate-500 text-xs mt-0.5">Done</span></span>
             </div>
-            <div className="flex flex-col bg-surface-800 border border-surface-600 rounded-lg p-2.5">
-              <span className="text-xs text-slate-400 mb-0.5">Videos</span>
-              <span className="text-sm text-white font-semibold flex justify-between"><span>{videoDone} / {videoTotal}</span> <span className="text-slate-500">Done</span></span>
+            <div className="flex flex-col bg-surface-800 border border-surface-600 rounded-lg p-2 px-2.5">
+              <span className="text-[11px] text-slate-400 mb-0.5 uppercase tracking-wide font-bold">Videos</span>
+              <span className="text-sm text-white font-semibold flex justify-between"><span>{videoDone} / {videoTotal}</span> <span className="text-slate-500 text-xs mt-0.5">Done</span></span>
+            </div>
+            <div className="flex flex-col bg-fuchsia-900/20 border border-fuchsia-700/30 rounded-lg p-2 px-2.5">
+              <span className="text-[11px] text-fuchsia-400 mb-0.5 uppercase tracking-wide font-bold">Story Pts</span>
+              <span className="text-sm text-white font-semibold flex justify-between"><span>{pointsEarned}</span> <span className="text-fuchsia-500/70 text-xs mt-0.5">Earned</span></span>
             </div>
           </div>
         </div>
