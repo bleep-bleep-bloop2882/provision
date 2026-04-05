@@ -368,7 +368,14 @@ function JiraTasksPanel({ employee, setEmployee, readOnly, employees, setEmploye
               <div key={col} className="bg-surface-900 border border-surface-600 rounded-xl p-3 flex flex-col min-h-[400px]">
                 <div className="flex items-center justify-between mb-3 px-1">
                   <h4 className="text-white font-semibold text-sm">{col}</h4>
-                  <span className="bg-surface-700 text-slate-400 text-xs px-2 py-0.5 rounded-full font-medium">{colTasks.length}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="bg-surface-700 text-slate-400 text-xs px-2 py-0.5 rounded-full font-medium">{colTasks.length}</span>
+                    {colTasks.reduce((acc, t) => acc + (parseInt(t.storyPoints) || 0), 0) > 0 && (
+                      <span className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full font-medium text-center">
+                        {colTasks.reduce((acc, t) => acc + (parseInt(t.storyPoints) || 0), 0)} pts
+                      </span>
+                    )}
+                  </div>
                 </div>
 
             
